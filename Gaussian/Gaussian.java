@@ -22,14 +22,19 @@ public class Gaussian {
             printArray(sol);
             long end = System.nanoTime();
             long CPUTime = end - start;
-            System.out.println("Naive Gaussian Time: " + CPUTime);
+            System.out.println("Naive Gaussian Time: " + CPUTime + "\n");
+
+            int[] ind = new int[arr.length];
+            for (int i = 0; i < ind.length; i++) {
+                ind[i] = i;
+            }
 
             start = System.nanoTime();
-            sol = naiveGaussian(arr, constants, new double[arr.length]);
+            sol = SPPElimination(arr, constants, ind);
             printArray(sol);
             end = System.nanoTime();
             CPUTime = end - start;
-            System.out.println("SPP Gaussian Time: " + CPUTime);
+            System.out.println("SPP Gaussian Time: " + CPUTime + "\n");
 
             // double[][] test = {{3, 4, 3}, {1, 5, -3}, {6, 3, 7}};
             // double[] constan = {10, 7, 15};
