@@ -177,6 +177,7 @@ public class Gaussian {
                         arr[i] = reader.nextDouble();
                     }
                 }
+                reader.close();
                 return arr;
             } catch (Exception e) {
                 System.out.println("i <3 hanni: " + e);
