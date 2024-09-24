@@ -1,36 +1,78 @@
 package Gaussian;
 
+
+import java.io.File;
+import java.util.Scanner;
 public class Gaussian {
         public static void main(String[] args) {
-            double[][] test = {{3, 4, 3, 10}, {1, 5, -3, 7}, {6, 3, 7, 15}};
-            printMatrix(test);
-            System.out.println();
 
-            double[] c = new double[test.length];
+            // System.out.println(args.length);
+            // if (args[0].equals("--spp")) {
+            //     System.out.println("yomom");
+            // }
+            
+            double[][] arr = readFile(0);
+            printMatrix(arr);
 
-            test = FwdElimination(test, c);
-            printMatrix(test);
+            double[] constants = readConstants(arr.length);
+            printArray(constants);
 
-            double[] solution = BackSub(test, c, new double[test.length]);
-            printArray(solution);
+            long start = System.nanoTime();
+            double[] sol = naiveGaussian(arr, constants, new double[arr.length]);
+            printArray(sol);
+            long end = System.nanoTime();
+            long CPUTime = end - start;
+            System.out.println("Naive Gaussian Time: " + CPUTime);
+
+            start = System.nanoTime();
+            sol = naiveGaussian(arr, constants, new double[arr.length]);
+            printArray(sol);
+            end = System.nanoTime();
+            CPUTime = end - start;
+            System.out.println("SPP Gaussian Time: " + CPUTime);
+
+            // double[][] test = {{3, 4, 3}, {1, 5, -3}, {6, 3, 7}};
+            // double[] constan = {10, 7, 15};
+            // printMatrix(test);
+
+            // long start = System.nanoTime();
+            // double[] sol = naiveGaussian(test, constan, new double[test.length]);
+            // printArray(sol);
+            // long end = System.nanoTime();
+            // long CPUTime = end - start;
+            // System.out.println("Naive Gaussian Time: " + CPUTime);
+
+            // int[] ind = new int[test.length];
+            // for (int i = 0; i < ind.length; i++) {
+            //     ind[i] = i;
+            // }
+
+            // start = System.nanoTime();
+            // double[] so = SPPElimination(test, constan, ind);
+            // printArray(so);
+            // end = System.nanoTime();
+            // CPUTime = end - start;
+            // System.out.println("SPP Gaussian Time: " + CPUTime);
         }
 
-        private static double[][] FwdElimination(double[][] arr, double[] c) {
+        private static double[] naiveGaussian(double[][] arr, double[] c, double[] solution) {
+            // Forward Elimination
             for (int k = 0; k < arr.length - 1; k++) {
                 for (int i = k + 1; i < arr.length; i++) {
+                    // get factor to scale other rows
                     double mult = arr[i][k] / arr[k][k];
                     for (int j = k; j < arr.length; j++) {
+                        // scale system of equations
                         arr[i][j] = arr[i][j] - mult * arr[k][j];
                     }
+                    // scale constants
                     c[i] = c[i] - mult * c[k];
                 }
             }
-            return arr;
-        }
 
-        private static double[] BackSub(double[][] arr, double[] c, double[] solution) {
+            // Back Substitution
             solution[solution.length - 1] = c[c.length - 1] / arr[arr.length - 1][arr[0].length - 1];
-            for (int i = arr.length - 1; i > 0; i--) {
+            for (int i = arr.length - 2; i >= 0; i--) {
                 double sum = c[i];
                 for (int j = i + 1; j < arr[i].length; j++) {
                     sum = sum - arr[i][j] * solution[j];
@@ -40,6 +82,103 @@ public class Gaussian {
             return solution;
         }
 
+        private static double[] SPPElimination(double[][] arr, double[] c, int[] ind) {
+            double[] scaling = new double[arr.length];
+
+            for (int i = 0; i < arr.length; i++) {
+                double smax = 0;
+                for (int j = 0; j < arr.length; j++) {
+                    smax = Math.max(smax, Math.abs(arr[i][j]));
+                }
+                scaling[i] = smax;
+            }
+
+            for (int k = 0; k < arr.length - 1; k++) {
+                double rmax = 0;
+                int maxInd = k;
+                for (int i = k; i < arr.length; i++) {
+                    double r = Math.abs(arr[ind[i]][k] / scaling[ind[i]]);
+                    if (r > rmax) {
+                        rmax = r;
+                        maxInd = i;
+                    }
+                }
+                int temp = ind[maxInd];
+                ind[maxInd] = ind[k];
+                ind[k] = temp;
+                for (int i = k + 1; i < arr.length; i++) {
+                    double mult = arr[ind[i]][k] / arr[ind[k]][k];
+                    for (int j = k + 1; j < arr.length; j++) {
+                        arr[ind[i]][j] = arr[ind[i]][j] - mult * arr[ind[k]][j];
+                    }
+                    c[ind[i]] = c[ind[i]] - mult * c[ind[k]];
+                }
+            }
+
+            // Back Substitution
+            double[] solution = new double[arr.length];
+            double sum = 0;
+            solution[arr.length - 1] = c[ind[arr.length - 1]] / arr[ind[arr.length - 1]][arr.length - 1];
+            for (int i = arr.length - 2; i >= 0; i--) {
+                sum = c[ind[i]];
+                for (int j = i + 1; j < arr.length; j++) {
+                    sum = sum - arr[ind[i]][j] * solution[j];
+                }
+                solution[i] = sum / arr[ind[i]][i];
+            }
+            return solution;
+        }
+
+
+
+
+        private static double[][] readFile(int length) {
+            try {
+                File obj = new File("sys1.lin");
+                Scanner reader = new Scanner(obj);
+                if (reader.hasNextInt()) {
+                    length = reader.nextInt();
+                    reader.nextLine();
+                }
+                double[][] arr = new double[length][length];
+                for (int i = 0; i < length; i++) {
+                    for (int j = 0; j < length; j++) {
+                        if (reader.hasNextDouble()) {
+                            arr[i][j] = reader.nextDouble();
+                        }
+                    }
+                }
+                return arr;
+            } catch (Exception e) {
+                System.out.println("i <3 hanni: " + e);
+                return null;
+            }
+        }
+
+        private static double[] readConstants(int length) {
+            try {
+                File obj = new File("sys1.lin");
+                Scanner reader = new Scanner(obj);
+                if (reader.hasNextInt()) {
+                    length = reader.nextInt();
+                    reader.nextLine();
+                }
+                double[] arr = new double[length];
+                for (int i = 0; i < length; i++) {
+                    reader.nextLine();
+                }
+                for (int i = 0; i < length; i++) {
+                    if (reader.hasNextDouble()) {
+                        arr[i] = reader.nextDouble();
+                    }
+                }
+                return arr;
+            } catch (Exception e) {
+                System.out.println("i <3 hanni: " + e);
+                return null;
+            }
+        }
+
         private static void printMatrix(double[][] arr) {
             for (int i = 0; i < arr.length; i++) {
                 for (int j = 0; j < arr[i].length; j++) {
@@ -47,7 +186,7 @@ public class Gaussian {
                 }
                 System.out.print("\n");
             }
-            
+            System.out.println();
         }
 
         private static void printArray(double[] arr) {
