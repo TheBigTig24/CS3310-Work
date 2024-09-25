@@ -6,58 +6,40 @@ import java.util.Scanner;
 public class Gaussian {
         public static void main(String[] args) {
 
-            // System.out.println(args.length);
-            // if (args[0].equals("--spp")) {
-            //     System.out.println("yomom");
-            // }
-            
             double[][] arr = readFile(0);
             printMatrix(arr);
 
             double[] constants = readConstants(arr.length);
             printArray(constants);
 
-            long start = System.nanoTime();
-            double[] sol = naiveGaussian(arr, constants, new double[arr.length]);
-            printArray(sol);
-            long end = System.nanoTime();
-            long CPUTime = end - start;
-            System.out.println("Naive Gaussian Time: " + CPUTime + "\n");
+            if (args.length == 0) {
 
-            int[] ind = new int[arr.length];
-            for (int i = 0; i < ind.length; i++) {
-                ind[i] = i;
+                long start = System.nanoTime();
+                double[] sol = naiveGaussian(arr, constants, new double[arr.length]);
+                printArray(sol);
+                long end = System.nanoTime();
+                long CPUTime = end - start;
+                System.out.println("Naive Gaussian Time: " + CPUTime + "\n");
+
+            } else if (args[0].equals("--spp")) {
+
+                int[] ind = new int[arr.length];
+                for (int i = 0; i < ind.length; i++) {
+                    ind[i] = i;
+                }
+                long start = System.nanoTime();
+                double[] sol = SPPElimination(arr, constants, ind);
+                printArray(sol);
+                long end = System.nanoTime();
+                long CPUTime = end - start;
+                System.out.println("SPP Gaussian Time: " + CPUTime + "\n");
+
+            } else if (args[0].equals("--double")) {
+
+                System.out.println("lei go ma zhen hai tai fay");
+
             }
-
-            start = System.nanoTime();
-            sol = SPPElimination(arr, constants, ind);
-            printArray(sol);
-            end = System.nanoTime();
-            CPUTime = end - start;
-            System.out.println("SPP Gaussian Time: " + CPUTime + "\n");
-
-            // double[][] test = {{3, 4, 3}, {1, 5, -3}, {6, 3, 7}};
-            // double[] constan = {10, 7, 15};
-            // printMatrix(test);
-
-            // long start = System.nanoTime();
-            // double[] sol = naiveGaussian(test, constan, new double[test.length]);
-            // printArray(sol);
-            // long end = System.nanoTime();
-            // long CPUTime = end - start;
-            // System.out.println("Naive Gaussian Time: " + CPUTime);
-
-            // int[] ind = new int[test.length];
-            // for (int i = 0; i < ind.length; i++) {
-            //     ind[i] = i;
-            // }
-
-            // start = System.nanoTime();
-            // double[] so = SPPElimination(test, constan, ind);
-            // printArray(so);
-            // end = System.nanoTime();
-            // CPUTime = end - start;
-            // System.out.println("SPP Gaussian Time: " + CPUTime);
+            
         }
 
         private static double[] naiveGaussian(double[][] arr, double[] c, double[] solution) {
@@ -153,6 +135,7 @@ public class Gaussian {
                         }
                     }
                 }
+                reader.close();
                 return arr;
             } catch (Exception e) {
                 System.out.println("i <3 hanni: " + e);

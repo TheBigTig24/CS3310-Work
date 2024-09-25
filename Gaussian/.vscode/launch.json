@@ -6,6 +6,14 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Gaussian",
+            "request": "launch",
+            "mainClass": "Gaussian.Gaussian",
+            "projectName": "CS 3310_b5430053",
+            "args": "--spp --double"
+        },
+        {
+            "type": "java",
             "name": "Launch with Arguments Prompt",
             "request": "launch",
             "mainClass": "Gaussian.main",
