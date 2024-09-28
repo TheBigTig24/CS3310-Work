@@ -8,18 +8,17 @@ import java.io.FileWriter;
 public class Gaussian {
         public static void main(String[] args) {
 
+            // Read File as Double
             double[][] arr = readFile(0);
-            printMatrix(arr);
 
             double[] constants = readConstants(arr.length);
-            printArray(constants);
 
+            // Read File as Float
             float[][] arrF = readFloatFile(0);
-            printFloatMatrix(arrF);
 
             float[] constantsF = readFloatConstants(arrF.length);
-            printFloatArray(constantsF);
 
+            // Create .sol file
             createFile();
 
             /* Command Line Commands
@@ -80,6 +79,7 @@ public class Gaussian {
 
         }
 
+        // All Elimination Functions
         private static double[] naiveGaussian(double[][] arr, double[] c, double[] solution) {
             // Forward Elimination
             for (int k = 0; k < arr.length - 1; k++) {
@@ -229,7 +229,7 @@ public class Gaussian {
         }
 
 
-
+        // Read Files
         private static double[][] readFile(int length) {
             try {
                 File obj = new File("sys1.lin");
@@ -328,6 +328,7 @@ public class Gaussian {
             }
         }
 
+        // Write to File
         private static void createFile() {
             try {
                 File obj = new File("sys1.sol");
@@ -361,6 +362,7 @@ public class Gaussian {
             }
         }
 
+        // Helper Printing Methods
         private static void printMatrix(double[][] arr) {
             for (int i = 0; i < arr.length; i++) {
                 for (int j = 0; j < arr[i].length; j++) {
