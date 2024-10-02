@@ -17,11 +17,19 @@ public class ZMain {
         }
         System.out.println();
 
+        float[] testicles = {1, 2, 10, -20};
+
         ZMain obj = new ZMain();
         float test = obj.performBisection(obj, polynomials, .5f, 2, 100000, .000001f);
         System.out.println("\n\nSKIBIDI GYATTTT OHIO RIZZ TEST: " + test + " ITER: " + obj.getIter() + " OUTCOMIUS: " + obj.getOutcome());
+
+        float test2 = obj.performNewton(obj, polynomials, 2, 100000, .000001f, .000001f);
+        System.out.println("\n\nSKIBIDI GYATTTT OHIO RIZZ TEST: " + test2 + " ITER: " + obj.getIter() + " OUTCOMIUS: " + obj.getOutcome());
+
+
     }
 
+    // BISECTION FUNCTION
     private float performBisection(ZMain obj, float[] func, float a, float b, int maxIter, float eps) {
         float fa = doFunction(func, a);
         float fb = doFunction(func, b);
@@ -55,8 +63,36 @@ public class ZMain {
         return c;
     }
 
+    // NEWTON'S FUNCTION
+    private float performNewton(ZMain obj, float[] func, float x, int maxIter, float eps, float delta) {
+        float fx = doFunction(func, x);
 
+        for (int i = 0; i < maxIter; i++) {
+            obj.setIter(i);
+            float fd = doDerivative(func, x);
 
+            if (Math.abs(fd) < delta) {
+                // print(small slope)
+                obj.setOutcome("Success");
+                return x;
+            }
+
+            float d = fx / fd;
+            x -= d;
+            fx = doFunction(func, x);
+
+            if (Math.abs(d) < eps) {
+                // print(alg has converged after i+1 iterations)
+                obj.setOutcome("Success");
+                return x;
+            }
+        }
+        // print(Max Iterations Reached)
+        obj.setOutcome("Success");
+        return x;
+    }
+
+    private float performSecant(ZMain obj, float[] func, )
 
     // METHODS FOR FUN
     private static float doFunction(float[] func, float x) {
@@ -68,8 +104,19 @@ public class ZMain {
         return result;
     }
 
+    private static float doDerivative(float[] func, float x) {
+        float result = 0;
+        for (int i = 0; i < func.length - 1; i++) {
+            result += (func[i] * (func.length - i - 1) ) * doPower(x, func.length - i - 2);
+        }
+        return result;
+    }
+
     private static float doPower(float x, int exp) {
         float result = x;
+        if (exp == 0) {
+            return 1;
+        }
         while (exp != 1) {
             result *= x;
             exp--;
