@@ -25,7 +25,7 @@ public class ZMain {
             float initP = Float.parseFloat(args[0]);
             String fileName = args[1];
             float[] polynomials = readFloatFile(0, fileName);
-            float result = obj.performBisection(obj, polynomials, initP, initP+100, 10000, .000001f);
+            float result = obj.performBisection(obj, polynomials, initP, initP+100, 10000, 1e-23f);
             writeFloatFile(result, obj.getIter(), obj.getOutcome());
 
         } else if (!args[0].equals("--newt") && !args[0].equals("--sec") && !args[0].equals("--hybrid") && !args[0].equals("--maxIter") && args.length == 2) {
@@ -35,7 +35,7 @@ public class ZMain {
             float initP = Float.parseFloat(args[0]);
             String fileName = args[1];
             float[] polynomials = readFloatFile(0, fileName);
-            float result = obj.performBisection(obj, polynomials, initP, initP+100, 10000, .000001f);
+            float result = obj.performBisection(obj, polynomials, initP, initP+100, 10000, 1e-23f);
             writeFloatFile(result, obj.getIter(), obj.getOutcome());
 
         } else if (!args[0].equals("--newt") && !args[0].equals("--sec") && !args[0].equals("--hybrid") && !args[0].equals("--maxIter") && args.length == 3) {
@@ -46,7 +46,7 @@ public class ZMain {
             float initP2 = Float.parseFloat(args[1]);
             String fileName = args[2];
             float[] polynomials = readFloatFile(0, fileName);
-            float result = obj.performBisection(obj, polynomials, initP, initP2, 10000, .000001f);
+            float result = obj.performBisection(obj, polynomials, initP, initP2, 10000, 1e-23f);
             writeFloatFile(result, obj.getIter(), obj.getOutcome());
 
         } else if (!args[0].equals("--newt") && !args[0].equals("--sec") && !args[0].equals("--hybrid") && args[0].equals("--maxIter") && args.length == 4) {
@@ -57,7 +57,7 @@ public class ZMain {
             float initP = Float.parseFloat(args[2]);
             String fileName = args[3];
             float[] polynomials = readFloatFile(0, fileName);
-            float result = obj.performBisection(obj, polynomials, initP, initP+100, maxIter, .000001f);
+            float result = obj.performBisection(obj, polynomials, initP, initP+100, maxIter, 1e-23f);
             writeFloatFile(result, obj.getIter(), obj.getOutcome());
 
         } else if (!args[0].equals("--newt") && !args[0].equals("--sec") && !args[0].equals("--hybrid") && args[0].equals("--maxIter") && args.length == 5) {
@@ -69,7 +69,7 @@ public class ZMain {
             float initP2 = Float.parseFloat(args[3]);
             String fileName = args[4];
             float[] polynomials = readFloatFile(0, fileName);
-            float result = obj.performBisection(obj, polynomials, initP, initP2, maxIter, .000001f);
+            float result = obj.performBisection(obj, polynomials, initP, initP2, maxIter, 1e-23f);
             writeFloatFile(result, obj.getIter(), obj.getOutcome());
 
         } else if (args[0].equals("--newt") && args.length == 3) {
@@ -79,7 +79,7 @@ public class ZMain {
             float initP = Float.parseFloat(args[1]);
             String fileName = args[2];
             float[] polynomials = readFloatFile(0, fileName);
-            float result = obj.performNewton(obj, polynomials, initP, 10000, .000001f, .000001f);
+            float result = obj.performNewton(obj, polynomials, initP, 10000, .000001f, 1e-23f);
             writeFloatFile(result, obj.getIter(), obj.getOutcome());
 
         } else if (args[0].equals("--sec") && args.length == 3) {
@@ -89,7 +89,7 @@ public class ZMain {
             float initP = Float.parseFloat(args[1]);
             String fileName = args[2];
             float[] polynomials = readFloatFile(0, fileName);
-            float result = obj.performSecant(obj, polynomials, initP, initP+1, 10000, .000001f);
+            float result = obj.performSecant(obj, polynomials, initP, initP+1, 10000, 1e-23f);
             writeFloatFile(result, obj.getIter(), obj.getOutcome());
 
         } else if (args[0].equals("--hybrid") && args.length == 3) {
@@ -99,7 +99,7 @@ public class ZMain {
             float initP = Float.parseFloat(args[1]);
             String fileName = args[2];
             float[] polynomials = readFloatFile(0, fileName);
-            float result = obj.performHybrid(obj, polynomials, initP, initP+100, 10000, .000001f, .000001f);
+            float result = obj.performHybrid(obj, polynomials, initP, initP+100, 10000, 1e-23f, .000001f);
             writeFloatFile(result, obj.getIter(), obj.getOutcome());
 
         } else if (args[0].equals("--hybrid") && args.length == 4 ) {
@@ -110,7 +110,7 @@ public class ZMain {
             float initP2 = Float.parseFloat(args[2]);
             String fileName = args[3];
             float[] polynomials = readFloatFile(0, fileName);
-            float result = obj.performHybrid(obj, polynomials, initP, initP2, 10000, .000001f, .000001f);
+            float result = obj.performHybrid(obj, polynomials, initP, initP2, 10000, 1e-23f, .000001f);
             writeFloatFile(result, obj.getIter(), obj.getOutcome());
 
         } else if ( (args[0].equals("--newt") || !args[0].equals("--sec") || !args[0].equals("--hybrid")) && args[1].equals("--maxIter") && args.length == 5) {
@@ -124,11 +124,11 @@ public class ZMain {
             float result = 0;
             String functionType = args[0];
             if (functionType.equals("--newt")) {
-                result = obj.performNewton(obj, polynomials, initP, maxIter, .000001f, .000001f);
+                result = obj.performNewton(obj, polynomials, initP, maxIter, 1e-23f, .000001f);
             } else if (functionType.equals("--sec")) {
-                result = obj.performSecant(obj, polynomials, initP, initP+100, maxIter, .000001f);
+                result = obj.performSecant(obj, polynomials, initP, initP+100, maxIter, 1e-23f);
             } else {
-                result = obj.performHybrid(obj, polynomials, initP, initP+100, maxIter, .000001f, .000001f);
+                result = obj.performHybrid(obj, polynomials, initP, initP+100, maxIter, 1e-23f, .000001f);
             }
             writeFloatFile(result, obj.getIter(), obj.getOutcome());
 
@@ -144,11 +144,11 @@ public class ZMain {
             float result = 0;
             String functionType = args[0];
             if (functionType.equals("--newt")) {
-                result = obj.performNewton(obj, polynomials, initP, maxIter, .000001f, .000001f);
+                result = obj.performNewton(obj, polynomials, initP, maxIter, 1e-23f, .000001f);
             } else if (functionType.equals("--sec")) {
-                result = obj.performSecant(obj, polynomials, initP, initP2, maxIter, .000001f);
+                result = obj.performSecant(obj, polynomials, initP, initP2, maxIter, 1e-23f);
             } else {
-                result = obj.performHybrid(obj, polynomials, initP, initP2, maxIter, .000001f, .000001f);
+                result = obj.performHybrid(obj, polynomials, initP, initP2, maxIter, 1e-23f, .000001f);
             }
             writeFloatFile(result, obj.getIter(), obj.getOutcome());
 
