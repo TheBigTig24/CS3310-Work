@@ -92,6 +92,15 @@ public class ZMain {
             float result = obj.performSecant(obj, polynomials, initP, initP+1, 10000, 1e-23f);
             writeFloatFile(result, obj.getIter(), obj.getOutcome());
 
+        } else if (args[0].equals("--sec") && args.length == 4) {
+
+            float initP = Float.parseFloat(args[1]);
+            float initP2 = Float.parseFloat(args[2]);
+            String fileName = args[3];
+            float[] polynomials = readFloatFile(0, fileName);
+            float result = obj.performSecant(obj, polynomials, initP, initP2, 10000, 1e-23f);
+            writeFloatFile(result, obj.getIter(), obj.getOutcome());
+
         } else if (args[0].equals("--hybrid") && args.length == 3) {
             
             // do hybrid , args[1] = initP , args[2] = filename  GOOD 
@@ -191,7 +200,7 @@ public class ZMain {
             }
             
         }
-        obj.setOutcome("Success");
+        obj.setOutcome("Fail");
         return c;
     }
 
@@ -220,7 +229,7 @@ public class ZMain {
             }
         }
         // print(Max Iterations Reached)
-        obj.setOutcome("Success");
+        obj.setOutcome("Fail");
         return x;
     }
 
@@ -265,7 +274,7 @@ public class ZMain {
             fa = doFunction(func, a);
         }
         // print(max number of iterations reached)
-        obj.setOutcome("Success");
+        obj.setOutcome("Fail");
         return a;
     }
 
