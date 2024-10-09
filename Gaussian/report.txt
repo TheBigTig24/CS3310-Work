@@ -1,0 +1,8 @@
+Taking a look at both the Gaussian and the SPP Elimination methods, they both have a time complexity of O(n^3).
+However, the SPP Elimination method can have advantages if the systems coefficients have a large difference in magnitude.
+After running each function, the Naive Gaussian took around 6,000 nanoseconds on average, while the SPP took about 30,000 nanoseconds.
+This may be due to all the additional nested for loops that exist in the SPP function.
+The double precision SPP function differed in results by 5.7 x 10^(-8) or .000000057 in the first value.
+Therefore, the double precision a bit more precise, which the percent of error being .000026%.
+There was a similar difference in precision in the single and double precision methods of the Naive Gaussian method.
+Between the Naive and SPP methods, there was an even smaller error of about 1.81 x 10^(-11).
