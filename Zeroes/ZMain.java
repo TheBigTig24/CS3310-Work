@@ -166,8 +166,6 @@ public class ZMain {
             System.out.println("Something went wrong.");
         }
 
-        // TODO: COMPARE IN CLASS TMR
-
     }
 
     // BISECTION FUNCTION

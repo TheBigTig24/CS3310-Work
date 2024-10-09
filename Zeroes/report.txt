@@ -1,0 +1,8 @@
+When running the program for polynomials of smaller degree and smaller coefficient size, bisection does run significantly slower, for example, around 20 iterations, whereas Newton and secant would
+take about 5-6 iterations. For these, the Hybrid was somewhere in between at about 15 iterations. However, when running the function with bigger numbers, the bisection was much slower.
+The Newton still finished the task in under 10 iterations, the secant with a couple more, but the bisection took 81. The Hybrid still existed somewhere between those two.
+
+When running the program with the same functions for all methods, but measuring their runtime, Newton's method, the secant method, and the hybrid, all took relatively around the same time on average,
+which was about 25000 nanoseconds. However, the bisection method took around 50000 nanoseconds on average. Therefore, the non bisection methods were all more efficient.
+This is probably because using the derivative allows the newton/hybrid function to zoom into the zeroes faster. The secant one also "points" closer and closer to the zero on each iteration, 
+whereas the bisection method systematically closes in.
