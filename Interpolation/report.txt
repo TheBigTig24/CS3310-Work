@@ -1,0 +1,7 @@
+While observing Newton's Interpolation function in code, we can estimate that for n inputs, the function will have a Big O of n^2.
+
+After testing inputs of n amounts various times and plotting a line of best fit with quadratic regression, the line of best fit showed 1.72x^2 + 316.8 - 2384.
+This shows that the function does indeed have a time complexity of n^2. No matter what point is to be evaluated, Newton's takes the same amount of time.
+
+However, when testing a large amount of inputs, it was very common that Newton's Interpolation could fail.
+My best guess for this is that the points are too random, which could make a possible function oscillate too intensely.
