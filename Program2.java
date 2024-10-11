@@ -165,12 +165,12 @@ public class Program2 {
         System.out.println();
     }
 
-    private static void printArr(int[] arr) {
-        for (int num : arr) {
-            System.out.print(num + " ");
-        }
-        System.out.println();
-    }
+    // private static void printArr(int[] arr) {
+    //     for (int num : arr) {
+    //         System.out.print(num + " ");
+    //     }
+    //     System.out.println();
+    // }
 
     private static void displayResults(int k, int answer, long CPUTime) {
         System.out.println("\nK: " + k + "\nANSWER: " + answer + "\nCPU TIME: " + CPUTime);
