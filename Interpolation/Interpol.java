@@ -91,15 +91,11 @@ public class Interpol {
 
 
     private static float performNewton(float[] xs, float[] ys, float[] cs, float z) {
-        int len = xs.length;
-        float res = ys[0];
+        int len = xs.length - 1;
+        float res = cs[len];
 
-        for (int i = 1; i < len; i++) {
-            float deltaX = 1;
-            for (int j = 0; j < i; j++) {
-                deltaX *= z - xs[j];
-            }
-            res += cs[i] * deltaX;
+        for (int i = len - 1; i >= 0; i--) {
+            res = res * (z - xs[i]) + cs[i];
         }
         return res;
     }
@@ -115,6 +111,7 @@ public class Interpol {
                 cs[i] = (cs[i] - cs[i - 1]) / (xs[i] - xs[i - j]);
             }
         }
+
         return cs;
     }
 
