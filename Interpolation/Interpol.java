@@ -40,25 +40,26 @@ public class Interpol {
 
             System.out.println("If thou couldst enter a value, it shal be evaluated anon, otherwise type 'q' to quit: ");
 
-            while(!scnr.hasNextFloat()) {
-                String text = scnr.next();
-                if (text.equals("q")) {
-                    System.out.println("You have successfully quit the program.");
-                    System.exit(0);
-                } else {
-                    System.out.println("If thou couldst enter a value, it shal be evaluated anon, otherwise type 'q' to quit: ");
+            while (scnr.hasNext()) {
+                if (!scnr.hasNextFloat()) {
+                    String text = scnr.next();
+                    if (text.equals("q")) {
+                        System.out.println("You have successfully quit the program.");
+                        System.exit(0);
+                    }
+                } else if (scnr.hasNextFloat()) {
+                    float valued = scnr.nextFloat();
+
+                    // get them mf coefficients
+                    float[] cs = new float[xs.length];
+                    cs = getCoeffs(xs, ys, cs);
+
+                    // do da nootin 
+                    float answer = performNewton(xs, ys, cs, valued);
+                    System.out.println("\nAnswer: " + answer);
                 }
+                System.out.println("If thou couldst enter a value, it shal be evaluated anon, otherwise type 'q' to quit: ");
             }
-
-            float valued = scnr.nextFloat();
-
-            // get them mf coefficients
-            float[] cs = new float[xs.length];
-            cs = getCoeffs(xs, ys, cs);
-
-            // do da nootin 
-            float answer = performNewton(xs, ys, cs, valued);
-            System.out.println("\nAnswer: " + answer);
 
         } else if (args.length == 1 && args[0].equals("--random")) {
 
@@ -69,18 +70,30 @@ public class Interpol {
             float[] randomYs = generateRandomYs(amt);
             printCoords(randomXs, randomYs);
 
-            System.out.println("HEY! WHAT POINT WOULD YOU LIKE TO EVALUATE THIS RANDOM FUNCTION AT?");
-            float val = scnr.nextFloat();
+            System.out.println("HEY! WHAT POINT WOULD YOU LIKE TO EVALUATE THIS RANDOM FUNCTION AT?, otherwise type 'q' to quit: ");
 
-            float[] newCs = new float[amt];
-            newCs = getCoeffs(randomXs, randomYs, newCs);
+            while (scnr.hasNext()) {
+                if (!scnr.hasNextFloat()) {
+                    String text = scnr.next();
+                    if (text.equals("q")) {
+                        System.out.println("You have successfully quit the program.");
+                        System.exit(0);
+                    }
+                } else if (scnr.hasNextFloat()) {
+                    float val = scnr.nextFloat();
 
-            long start = System.nanoTime();
-            float a2 = performNewton(randomXs, randomYs, newCs, val);
-            long end = System.nanoTime();
-            long CPUTime = end - start;
-
-            System.out.println("\n\nf(" + val + ") = " + a2 +  "\nNumber of Inputs Given: " + amt + "\nTime Taken for Operation: " + CPUTime);
+                    float[] newCs = new float[amt];
+                    newCs = getCoeffs(randomXs, randomYs, newCs);
+        
+                    long start = System.nanoTime();
+                    float a2 = performNewton(randomXs, randomYs, newCs, val);
+                    long end = System.nanoTime();
+                    long CPUTime = end - start;
+        
+                    System.out.println("\n\nf(" + val + ") = " + a2 +  "\nNumber of Inputs Given: " + amt + "\nTime Taken for Operation: " + CPUTime);
+                }
+                System.out.println("HEY! WHAT POINT WOULD YOU LIKE TO EVALUATE THIS RANDOM FUNCTION AT?, otherwise type 'q' to quit: ");
+            }
 
         } else {
             System.out.println("Bad choice buddy.");
