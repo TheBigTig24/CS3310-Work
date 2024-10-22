@@ -10,6 +10,8 @@ public class Prog3 {
         printRecursive(matrix, matrix.length - 1, matrix[0].length - 1);
     }
 
+
+    // its time complexity is nlogn
     private static void printRecursive(int[][] A, int row, int col) {
         if (row == 0 && col == 0) {
             // done
