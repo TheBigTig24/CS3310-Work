@@ -1,0 +1,3 @@
+The time complexity of Richardson's extrapolation seems to be n^2 since the first loop runs n iterations and the inner loop runs an average of n/2 iterations.
+The time complexity of Romberg's method seems to be n2^n because the outer loop runs n iterations, but the inner loop runs an average of 2^n / 2 iterations because of the summation.
+There seems to be a lot of possible error with the Richarson method because the float values in java only hold 7 digits of precision, and if the h value gets too small, it can really mess up the answers.
